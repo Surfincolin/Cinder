@@ -89,6 +89,11 @@ protected:
  	AppImplLinux    	*mAppImpl = nullptr;
 	WindowRef       	mWindowRef;
 
+	// int 				prevWidth;
+	// int 				prevHeight;
+	int 				prevXpos;
+	int 				prevYpos;
+
 #if defined( CINDER_LINUX_EGL_ONLY )
 	struct NativeWindow;
 	std::unique_ptr<NativeWindow> mNativeWindow;

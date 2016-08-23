@@ -73,6 +73,7 @@ WindowImplLinux::WindowImplLinux( const Window::Format &format, RendererRef shar
 
 	auto windowSize = format.getSize();
 	mGlfwWindow = ::glfwCreateWindow( windowSize.x, windowSize.y, format.getTitle().c_str(), NULL, NULL );
+	// mGlfwWindow = ::glfwCreateWindow( 1920, 1200, format.getTitle().c_str(), glfwGetPrimaryMonitor(), NULL );
 
 	mRenderer->setup( mGlfwWindow, sharedRenderer );
 
@@ -89,7 +90,20 @@ WindowImplLinux::~WindowImplLinux()
 
 void WindowImplLinux::setFullScreen( bool fullScreen, const app::FullScreenOptions &options )
 {
-	// TODO: Find a way to do this w/o recreating 
+	// TODO: Find a way to do this w/o recreating
+	std::cout << "setting fullScreen" << std::endl;
+
+	//store window position
+	::glfwGetWindowPos( mGlfwWindow, &prevXpos, &prevYpos);
+	auto monitor = ::glfwGetPrimaryMonitor();
+	auto vidmode = ::glfwGetVideoMode( monitor );
+
+	std::cout << "Vidmode width: " << vidmode->width << std::endl;
+	std::cout << "Vidmode height: " << vidmode->height << std::endl;
+	std::cout << "Vidmode refresh: " << vidmode->refreshRate << std::endl;
+
+	::glfwSetWindowMonitor( mGlfwWindow, monitor, 0, 0, vidmode->width, vidmode->height, vidmode->refreshRate );
+
 }
 
 ivec2 WindowImplLinux::getSize() const
